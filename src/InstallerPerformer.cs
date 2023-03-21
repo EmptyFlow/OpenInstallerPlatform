@@ -1,5 +1,6 @@
 ﻿using Jint;
 using Jint.Native;
+using OpenInstallerPlatform.InstallerModules.Helpers;
 using OpenInstallerPlatform.Modules;
 using System.Reflection;
 
@@ -26,25 +27,8 @@ namespace OpenInstallerPlatform {
 
             var promise = installerModule.Get ( "default" ).Call ();
             if ( promise.IsPromise () ) {
-                var stateGetMethod = GetStateMethod ( promise );
-
-                while ( true ) {
-                    await Task.Delay ( 1000 );
-
-                    var state = stateGetMethod?.Invoke ( promise, null );
-                    if ( state != null ) {
-                        var isRejected = (int) state == 2;
-                        var isCompleted = (int) state == 3;
-                        if ( isRejected ) {
-                            //TODO: get error message
-                            LoggerModule.Instance.error ( "RunInstaller", "main promise is rejected!" );
-                            return;
-                        }
-                        break;
-                    }
-
-                    if ( Finished ) break;
-                }
+                var (completed , message) = await PromiseAwaiter.Await ( promise, () => Finished );
+                if ( !completed ) LoggerModule.Instance.error ( "RunInstaller", "main promise is rejected!" );
             }
 
             await m_configurationModule.SaveConfiguration ();
@@ -60,15 +44,6 @@ namespace OpenInstallerPlatform {
                     .ExportObject ( "FileSystem", new FilesModule ( LoggerModule.Instance, Assembly.GetExecutingAssembly () ) )
                     .ExportObject ( "Environment", new EnvironmentModule () )
             );
-        }
-
-        /// <summary>
-        /// Sorry for ugly code, I try to avoid it but I don't know how to do it :(
-        /// </summary>
-        private static MethodInfo? GetStateMethod ( JsValue promise ) {
-            var stateProperty = promise.GetType ().GetProperties ( BindingFlags.Instance | BindingFlags.NonPublic ).FirstOrDefault ( a => a.Name == "State" );
-            var stateGetMethod = stateProperty?.GetGetMethod ( nonPublic: true );
-            return stateGetMethod;
         }
 
     }

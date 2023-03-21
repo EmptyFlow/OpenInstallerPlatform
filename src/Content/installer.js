@@ -22,7 +22,7 @@ async function run() {
     await operationSequence(
         [
             () => FileSystem.copyFolder(`Application`, Configuration.applicationFolder(`appfolder`)),
-            () => FileSystem.copyFile(`Application/README.md`, Configuration.applicationFolder(`appfolder`) + "/pizda", "NEWREADME.md")
+            () => FileSystem.copyFile(`Application/README.md`, Configuration.applicationFolder(`appfolder`), "NEWREADME.md")
         ]
     );
 }
