@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using OpenInstallerPlatform.InstallerModules;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace OpenInstallerPlatform.Modules {
@@ -11,8 +12,8 @@ namespace OpenInstallerPlatform.Modules {
 
         private readonly LoggerModule m_loggerModule;
 
-        public FilesModule ( LoggerModule loggerModule ) {
-            m_resourcesAssembly = Assembly.GetExecutingAssembly ();
+        public FilesModule ( LoggerModule loggerModule, Assembly assembly ) {
+            m_resourcesAssembly = assembly;
             m_resourcesPrefix = m_resourcesAssembly.GetName ().Name + ".Content.";
             m_loggerModule = loggerModule ?? throw new ArgumentNullException ( nameof ( loggerModule ) );
         }
@@ -45,10 +46,10 @@ namespace OpenInstallerPlatform.Modules {
             }
         }
 
-        private static (string, bool) GetEmbeddedFileName ( string resourcePath ) {
+        private (string, bool) GetEmbeddedFileName ( string resourcePath ) {
             if ( string.IsNullOrEmpty ( resourcePath ) ) return ("", false);
 
-            var fileName = EmbeddedResources.GetFileName ( resourcePath );
+            var fileName = EmbeddedResources.GetFileName ( resourcePath, m_resourcesAssembly );
             if ( fileName == null ) return ("", false);
 
             return (fileName, true);

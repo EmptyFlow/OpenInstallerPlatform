@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenInstallerPlatform", "OpenInstallerPlatform.csproj", "{B5106D8F-606B-4296-86B4-8D7F07B6F8F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenInstallerPlatform.InstallerModules", "..\InstallerModules\OpenInstallerPlatform.InstallerModules.csproj", "{5068A553-A43E-479F-B8EE-006FE8F8E7D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B5106D8F-606B-4296-86B4-8D7F07B6F8F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5106D8F-606B-4296-86B4-8D7F07B6F8F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5106D8F-606B-4296-86B4-8D7F07B6F8F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5068A553-A43E-479F-B8EE-006FE8F8E7D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5068A553-A43E-479F-B8EE-006FE8F8E7D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5068A553-A43E-479F-B8EE-006FE8F8E7D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5068A553-A43E-479F-B8EE-006FE8F8E7D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -21,7 +21,7 @@ async function run() {
 
     await operationSequence(
         [
-            () => FileSystem.copyFolder(`Application`, Configuration.applicationFolder(`appfolder`), false)
+            () => FileSystem.copyFolder(`Application`, Configuration.applicationFolder(`appfolder`))
         ]
     );
 }

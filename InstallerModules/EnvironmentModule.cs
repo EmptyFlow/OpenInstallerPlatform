@@ -2,7 +2,7 @@
 
 namespace OpenInstallerPlatform.Modules {
 
-    internal sealed class EnvironmentModule {
+    public sealed class EnvironmentModule {
 
         private uint m_exitCode = 0;
 
@@ -24,9 +24,11 @@ namespace OpenInstallerPlatform.Modules {
         [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
         public static bool isMacOSX => Environment.OSVersion.Platform == PlatformID.MacOSX;
 
-        public void SetExitCode ( uint exitCode ) => m_exitCode = exitCode;
+        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
+        public void setExitCode ( uint exitCode ) => m_exitCode = exitCode;
 
-        public uint GetExitCode () => m_exitCode;
+        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
+        public uint getExitCode () => m_exitCode;
 
     }
 

@@ -57,7 +57,7 @@ namespace OpenInstallerPlatform {
                     .ExportFunction ( "finishInstall", () => Finished = true )
                     .ExportObject ( "Configuration", m_configurationModule )
                     .ExportObject ( "Logger", LoggerModule.Instance )
-                    .ExportObject ( "FileSystem", new FilesModule ( LoggerModule.Instance ) )
+                    .ExportObject ( "FileSystem", new FilesModule ( LoggerModule.Instance, Assembly.GetExecutingAssembly () ) )
                     .ExportObject ( "Environment", new EnvironmentModule () )
             );
         }

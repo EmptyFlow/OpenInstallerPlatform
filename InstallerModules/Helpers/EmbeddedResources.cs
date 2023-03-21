@@ -1,15 +1,20 @@
 ﻿using Microsoft.Extensions.FileProviders;
+using System.Reflection;
 
-namespace OpenInstallerPlatform {
+namespace OpenInstallerPlatform.InstallerModules {
 
-    internal static class EmbeddedResources {
+    public static class EmbeddedResources {
 
-        private static readonly Dictionary<string, string> m_fileNames = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> m_fileNames = new();
 
-        public static string GetFileName(string resourcePath) => m_fileNames.ContainsKey( resourcePath ) ? m_fileNames[resourcePath] : "";
+        public static string GetFileName ( string resourcePath, Assembly assembly ) {
+            if ( !m_fileNames.Any () ) FillFileNames ( assembly );
 
-        static EmbeddedResources () {
-            var manifestEmbeddedProvider = new ManifestEmbeddedFileProvider ( typeof ( InstallerPerformer ).Assembly );
+            return m_fileNames.TryGetValue ( resourcePath, out var value ) ? value : "";
+        }
+
+        private static void FillFileNames ( Assembly assembly ) {
+            var manifestEmbeddedProvider = new ManifestEmbeddedFileProvider ( assembly );
             var folder = manifestEmbeddedProvider.GetDirectoryContents ( "Content" );
 
             var directoryProperty = folder.GetType ().GetProperty ( "Directory" );
