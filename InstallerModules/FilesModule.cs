@@ -95,7 +95,10 @@ namespace OpenInstallerPlatform.Modules {
             var (originalFileName, fileNameAccessed) = GetEmbeddedFileName ( resourcePath );
             if ( !fileNameAccessed ) return false;
 
-            var itemPath = Path.Combine ( targetFolder, resourcePath.Replace ( m_resourcesPrefix, "" ).Replace ( originalFileName, "" ).Replace ( ".", "/" ) );
+            var itemPath = Path.Combine (
+                targetFolder,
+                originalFileName
+            );
 
             var directory = itemPath.Replace ( originalFileName, "" );
             if ( !CreateDirectoryIfNotExists ( directory ) ) return false;

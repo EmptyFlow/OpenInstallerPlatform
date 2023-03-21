@@ -4,6 +4,9 @@ using System.Text.Json;
 
 namespace OpenInstallerPlatform.Modules {
 
+    /// <summary>
+    /// Configuration module contains variables and operations for save and restore state about instaler.
+    /// </summary>
     public class ConfigurationModule {
 
         private string m_application = "";
@@ -16,7 +19,7 @@ namespace OpenInstallerPlatform.Modules {
 
         private string m_configurationFile = "";
 
-        private ConfigurationModel m_configurationModel = new ConfigurationModel ();
+        private ConfigurationModel m_configurationModel = new();
 
         private readonly LoggerModule m_loggerModule;
 
