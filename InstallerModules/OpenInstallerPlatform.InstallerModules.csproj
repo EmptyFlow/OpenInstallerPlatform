@@ -10,14 +10,31 @@
 		<PackageProjectUrl>https://github.com/EmptyFlow/OpenInstallerPlatform</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/EmptyFlow/OpenInstallerPlatform</RepositoryUrl>
 		<PackageTags>installer;packager</PackageTags>
-		<PackageReleaseNotes></PackageReleaseNotes>
-		<AssemblyVersion>1.0.0</AssemblyVersion>
-		<FileVersion>1.0.0</FileVersion>
+		<PackageReleaseNotes>Initial package</PackageReleaseNotes>
+		<AssemblyVersion>1.0.1</AssemblyVersion>
+		<FileVersion>1.0.1</FileVersion>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\LICENSE">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="7.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>
