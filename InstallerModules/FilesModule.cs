@@ -29,7 +29,7 @@ namespace OpenInstallerPlatform.Modules {
                 await stream.CopyToAsync ( file );
                 return true;
             } catch ( Exception exception ) {
-                m_loggerModule.error ( "FilesModule", $"Error while copying file {resoursePath} to {fileName}. {exception.Message}" );
+                m_loggerModule.Error ( "FilesModule", $"Error while copying file {resoursePath} to {fileName}. {exception.Message}" );
                 return false;
             }
         }
@@ -41,7 +41,7 @@ namespace OpenInstallerPlatform.Modules {
                 if ( !Directory.Exists ( path ) ) Directory.CreateDirectory ( path );
                 return true;
             } catch ( Exception exception ) {
-                m_loggerModule.error ( "FilesModule", $"Error while creating directory {path}. {exception.Message}" );
+                m_loggerModule.Error ( "FilesModule", $"Error while creating directory {path}. {exception.Message}" );
                 return false;
             }
         }
@@ -80,10 +80,10 @@ namespace OpenInstallerPlatform.Modules {
                 if ( File.Exists ( itemPath ) ) File.Delete ( itemPath );
                 if ( !await CopyFileFromResource ( name, itemPath ) ) break;
 
-                m_loggerModule.information ( "FilesModule", $"Sucessfully copied file {itemPath}" );
+                m_loggerModule.Information ( "FilesModule", $"Sucessfully copied file {itemPath}" );
             }
 
-            m_loggerModule.information ( "FilesModule", $"Sucessfully performed `copyFolder` {folder} to {finishFolder}" );
+            m_loggerModule.Information ( "FilesModule", $"Sucessfully performed `copyFolder` {folder} to {finishFolder}" );
 
             return true;
         }
@@ -108,7 +108,7 @@ namespace OpenInstallerPlatform.Modules {
             if ( File.Exists ( itemPath ) ) File.Delete ( itemPath );
             if ( !await CopyFileFromResource ( resourcePath, itemPath ) ) return false;
 
-            m_loggerModule.information ( "FilesModule", $"Sucessfully copied file {itemPath}" );
+            m_loggerModule.Information ( "FilesModule", $"Sucessfully copied file {itemPath}" );
             return true;
         }
 
@@ -118,7 +118,7 @@ namespace OpenInstallerPlatform.Modules {
 
             var stream = m_resourcesAssembly.GetManifestResourceStream ( resourcePath );
             if ( stream == null ) {
-                m_loggerModule.error ( "FilesModule", $"Error while open path {fileName} for read text content." );
+                m_loggerModule.Error ( "FilesModule", $"Error while open path {fileName} for read text content." );
                 return "";
             }
             using var streamReader = new StreamReader ( stream );

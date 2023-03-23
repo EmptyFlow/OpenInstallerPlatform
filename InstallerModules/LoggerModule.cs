@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace OpenInstallerPlatform.Modules {
 
@@ -22,32 +21,20 @@ namespace OpenInstallerPlatform.Modules {
             return $"[{DateTime.Now.ToString ( dateTimeFormat )}]<{type}>{group}: {message}";
         }
 
-        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
-        public void information ( string group, string message ) {
-#if DEBUG
+        public static void Log (string message) => Console.WriteLine ( message );
+
+        public void Information ( string group, string message ) {
             Console.WriteLine ( GetLine ( "info", group, message ) );
-#else
-            
-#endif
         }
 
-        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
-        public void warning ( string group, string message ) {
-#if DEBUG
+        public void Warning ( string group, string message ) {
             Console.WriteLine ( GetLine ( "warn", group, message ) );
-#else
-            
-#endif
         }
 
-        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
-        public void error ( string group, string message ) {
-#if DEBUG
+        public void Error ( string group, string message ) {
             Console.WriteLine ( GetLine ( "err", group, message ) );
-#else
-            
-#endif
         }
 
     }
+
 }

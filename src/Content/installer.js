@@ -1,4 +1,4 @@
-import { FileSystem, Configuration, Environment } from 'installer'
+import { FileSystem, Configuration, Environment, Network, Logger } from 'installer'
 
 async function operationSequence(operations) {
     for (const operation of operations) {
@@ -10,6 +10,9 @@ async function operationSequence(operations) {
 async function run() {
     const { result: configFile } = await FileSystem.readTextFile(`project.json`);
     if (!configFile) return;
+
+    const { result: xmlData } = await Network.getAsString("https://raw.githubusercontent.com/trueromanus/ArdorQuery/main/test.xml");
+    Logger.log(xmlData);
 
     const installerData = JSON.parse(configFile);
     const { result: configured } = await Configuration.configure(installerData.name, installerData.version, installerData.unique);

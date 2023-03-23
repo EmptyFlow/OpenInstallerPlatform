@@ -1,4 +1,5 @@
 ﻿using Jint;
+using OpenInstallerPlatform.InstallerModules;
 using OpenInstallerPlatform.InstallerModules.Helpers;
 using OpenInstallerPlatform.Modules;
 using System.Reflection;
@@ -9,7 +10,7 @@ namespace OpenInstallerPlatform {
 
         private static bool Finished = false;
 
-        private static readonly ConfigurationModule m_configurationModule = new( LoggerModule.Instance );
+        private static readonly ConfigurationModule m_configurationModule = new ( LoggerModule.Instance );
 
         public static async Task RunInstaller () {
 
@@ -26,8 +27,8 @@ namespace OpenInstallerPlatform {
 
             var promise = installerModule.Get ( "default" ).Call ();
             if ( promise.IsPromise () ) {
-                var (completed , message) = await PromiseAwaiter.Await ( promise, () => Finished );
-                if ( !completed ) LoggerModule.Instance.error ( "RunInstaller", "main promise is rejected! " + message );
+                var (completed, message) = await PromiseAwaiter.Await ( promise, () => Finished );
+                if ( !completed ) LoggerModule.Instance.Error ( "RunInstaller", "main promise is rejected! " + message );
             }
 
             await m_configurationModule.SaveConfiguration ();
@@ -42,6 +43,7 @@ namespace OpenInstallerPlatform {
                     .ExportObject ( "Logger", LoggerModule.Instance )
                     .ExportObject ( "FileSystem", new FilesModule ( LoggerModule.Instance, Assembly.GetExecutingAssembly () ) )
                     .ExportObject ( "Environment", new EnvironmentModule () )
+                    .ExportObject ( "Network", new NetworkModule () )
             );
         }
 

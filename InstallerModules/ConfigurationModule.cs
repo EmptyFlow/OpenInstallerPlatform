@@ -30,7 +30,7 @@ namespace OpenInstallerPlatform.Modules {
                 if ( !Directory.Exists ( path ) ) Directory.CreateDirectory ( path );
                 return true;
             } catch ( Exception exception ) {
-                m_loggerModule.error ( "ConfigurationModule", $"Error while creating directory {path}. {exception.Message}" );
+                m_loggerModule.Error ( "ConfigurationModule", $"Error while creating directory {path}. {exception.Message}" );
                 return false;
             }
         }
@@ -50,15 +50,15 @@ namespace OpenInstallerPlatform.Modules {
         [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
         public async Task<bool> configure ( string application, string version, string unique ) {
             if ( string.IsNullOrEmpty ( application ) ) {
-                m_loggerModule.error ( "ConfigurationModule", "in method `configure` parameter `application` is required!" );
+                m_loggerModule.Error ( "ConfigurationModule", "in method `configure` parameter `application` is required!" );
                 return false;
             }
             if ( string.IsNullOrEmpty ( version ) ) {
-                m_loggerModule.error ( "ConfigurationModule", "in method `configure` parameter `version` is required!" );
+                m_loggerModule.Error ( "ConfigurationModule", "in method `configure` parameter `version` is required!" );
                 return false;
             }
             if ( string.IsNullOrEmpty ( unique ) ) {
-                m_loggerModule.error ( "ConfigurationModule", "in method `configure` parameter `unique` is required!" );
+                m_loggerModule.Error ( "ConfigurationModule", "in method `configure` parameter `unique` is required!" );
                 return false;
             }
 
@@ -83,7 +83,7 @@ namespace OpenInstallerPlatform.Modules {
             }
 #endif
 
-            m_loggerModule.information ( "ConfigurationModule", $"application {application} {version} ({unique}) configured" );
+            m_loggerModule.Information ( "ConfigurationModule", $"application {application} {version} ({unique}) configured" );
             return true;
         }
 
