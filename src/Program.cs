@@ -1,3 +1,16 @@
-﻿using OpenInstallerPlatform;
+﻿using Microsoft.Extensions.DependencyInjection;
+using OpenInstallerPlatform;
+using OpenInstallerPlatform.InstallerModules;
+using OpenInstallerPlatform.Modules;
+using System.Reflection;
 
-await InstallerPerformer.RunInstaller ();
+var collection = new ServiceCollection ()
+    .AddHttpClient ()
+    .AddSingleton<NetworkModule> ()
+    .AddSingleton<LoggerModule> ()
+    .AddSingleton<ConfigurationModule> ()
+    .AddSingleton ( ( serviceProvider ) => new FilesModule ( serviceProvider.GetService<LoggerModule> (), Assembly.GetExecutingAssembly () ) )
+    .AddSingleton<EnvironmentModule> ()
+    .BuildServiceProvider ();
+
+await InstallerPerformer.RunInstaller ( collection );

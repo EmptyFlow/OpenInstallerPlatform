@@ -1,4 +1,5 @@
 ﻿using Jint;
+using Microsoft.Extensions.DependencyInjection;
 using OpenInstallerPlatform.InstallerModules;
 using OpenInstallerPlatform.InstallerModules.Helpers;
 using OpenInstallerPlatform.Modules;
@@ -10,9 +11,9 @@ namespace OpenInstallerPlatform {
 
         private static bool Finished = false;
 
-        private static readonly ConfigurationModule m_configurationModule = new ( LoggerModule.Instance );
-
-        public static async Task RunInstaller () {
+        public static async Task RunInstaller ( ServiceProvider serviceProvider ) {
+            var configurationModule = serviceProvider.GetService<ConfigurationModule> ();
+            if ( configurationModule == null ) throw new ArgumentException ( nameof ( ConfigurationModule ) );
 
             var engine = new Engine (
                     options => {
@@ -21,7 +22,7 @@ namespace OpenInstallerPlatform {
                     }
             );
 
-            AddModules ( engine );
+            AddModules ( engine, serviceProvider, configurationModule );
 
             var installerModule = engine.ImportModule ( "./installer.js" );
 
@@ -31,19 +32,19 @@ namespace OpenInstallerPlatform {
                 if ( !completed ) LoggerModule.Instance.Error ( "RunInstaller", "main promise is rejected! " + message );
             }
 
-            await m_configurationModule.SaveConfiguration ();
+            await configurationModule.SaveConfiguration ();
         }
 
-        private static void AddModules ( Engine engine ) {
+        private static void AddModules ( Engine engine, ServiceProvider serviceProvider, ConfigurationModule configurationModule ) {
             engine.AddModule (
                 "installer",
                 builder => builder
                     .ExportFunction ( "finishInstall", () => Finished = true )
-                    .ExportObject ( "Configuration", m_configurationModule )
-                    .ExportObject ( "Logger", LoggerModule.Instance )
+                    .ExportObject ( "Configuration", configurationModule )
+                    .ExportObject ( "Logger", serviceProvider.GetService<LoggerModule> () ?? throw new ArgumentException ( nameof ( LoggerModule ) ) )
                     .ExportObject ( "FileSystem", new FilesModule ( LoggerModule.Instance, Assembly.GetExecutingAssembly () ) )
-                    .ExportObject ( "Environment", new EnvironmentModule () )
-                    .ExportObject ( "Network", new NetworkModule () )
+                    .ExportObject ( "Environment", serviceProvider.GetService<EnvironmentModule> () ?? throw new ArgumentException ( nameof ( EnvironmentModule ) ) )
+                    .ExportObject ( "Network", serviceProvider.GetService<NetworkModule> () ?? throw new ArgumentException ( nameof ( NetworkModule ) ) )
             );
         }
 

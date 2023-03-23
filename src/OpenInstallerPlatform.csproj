@@ -20,8 +20,10 @@
 
   <ItemGroup>
     <PackageReference Include="Jint" Version="3.0.0-beta-2047" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="7.0.3" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="7.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>

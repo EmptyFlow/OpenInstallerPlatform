@@ -1,11 +1,14 @@
-﻿namespace OpenInstallerPlatform.InstallerModules {
+﻿
+namespace OpenInstallerPlatform.InstallerModules {
 
     public class NetworkModule {
+        
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        readonly HttpClient m_client = new();
+        public NetworkModule( IHttpClientFactory httpClientFactory) => _httpClientFactory = httpClientFactory;
 
         public async Task<string> GetAsString ( string url ) {
-            return await m_client.GetStringAsync ( url );
+            return await _httpClientFactory.CreateClient().GetStringAsync ( url );
         }
 
     }
