@@ -1,5 +1,4 @@
 ﻿using Jint;
-using Jint.Native;
 using OpenInstallerPlatform.InstallerModules.Helpers;
 using OpenInstallerPlatform.Modules;
 using System.Reflection;
@@ -28,7 +27,7 @@ namespace OpenInstallerPlatform {
             var promise = installerModule.Get ( "default" ).Call ();
             if ( promise.IsPromise () ) {
                 var (completed , message) = await PromiseAwaiter.Await ( promise, () => Finished );
-                if ( !completed ) LoggerModule.Instance.error ( "RunInstaller", "main promise is rejected!" );
+                if ( !completed ) LoggerModule.Instance.error ( "RunInstaller", "main promise is rejected! " + message );
             }
 
             await m_configurationModule.SaveConfiguration ();

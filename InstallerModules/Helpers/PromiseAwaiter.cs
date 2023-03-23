@@ -7,14 +7,15 @@ namespace OpenInstallerPlatform.InstallerModules.Helpers {
     /// </summary>
     public static class PromiseAwaiter {
 
-        private static MethodInfo? GetStateMethod ( object promise ) {
-            var stateProperty = promise.GetType ().GetProperties ( BindingFlags.Instance | BindingFlags.NonPublic ).FirstOrDefault ( a => a.Name == "State" );
+        private static MethodInfo? GetPropertyMethod ( object promise, string propertyName ) {
+            var stateProperty = promise.GetType ().GetProperties ( BindingFlags.Instance | BindingFlags.NonPublic ).FirstOrDefault ( a => a.Name == propertyName );
             var stateGetMethod = stateProperty?.GetGetMethod ( nonPublic: true );
             return stateGetMethod;
         }
 
         public static async Task<(bool completed, string message)> Await ( object promise, Func<bool> finishedMark ) {
-            var stateGetMethod = GetStateMethod ( promise );
+            var stateGetMethod = GetPropertyMethod ( promise, "State" );
+            var valueGetMethod = GetPropertyMethod ( promise, "Value" );
 
             while ( true ) {
                 await Task.Delay ( 1000 );
@@ -23,7 +24,10 @@ namespace OpenInstallerPlatform.InstallerModules.Helpers {
                 if ( state != null ) {
                     var isRejected = (int) state == 2;
                     var isCompleted = (int) state == 1;
-                    if ( isRejected ) return (false, "");
+                    if ( isRejected ) {
+                        var message = valueGetMethod?.Invoke ( promise, null )?.ToString() ?? "";
+                        return (false, message);
+                    }
                     if ( isCompleted ) break;
                 }
 
