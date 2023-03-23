@@ -1,3 +1,3 @@
 # OpenInstallerPlatform
 
-C# project for creating installers any type of installers - offline or web.
+C# project for creating installers any type - offline or web.
