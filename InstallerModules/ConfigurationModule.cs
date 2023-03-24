@@ -1,5 +1,4 @@
 ﻿using OpenInstallerPlatform.Models;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
 namespace OpenInstallerPlatform.Modules {
@@ -35,20 +34,15 @@ namespace OpenInstallerPlatform.Modules {
             }
         }
 
-        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
-        public string application => m_application;
+        public string Application => m_application;
 
-        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
-        public string version => m_version;
+        public string Version => m_version;
 
-        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
-        public string unique => m_unique;
+        public string Unique => m_unique;
 
-        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
-        public string baseFolder => m_baseFolder;
+        public string BaseFolder => m_baseFolder;
 
-        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
-        public async Task<bool> configure ( string application, string version, string unique ) {
+        public async Task<bool> Configure ( string application, string version, string unique ) {
             if ( string.IsNullOrEmpty ( application ) ) {
                 m_loggerModule.Error ( "ConfigurationModule", "in method `configure` parameter `application` is required!" );
                 return false;
@@ -87,8 +81,7 @@ namespace OpenInstallerPlatform.Modules {
             return true;
         }
 
-        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
-        public void addApplicationFolder ( string name, string folder ) {
+        public void AddApplicationFolder ( string name, string folder ) {
             if ( m_configurationModel.ApplicationFolders.ContainsKey ( name ) ) {
                 m_configurationModel.ApplicationFolders[name] = folder;
             } else {
@@ -96,22 +89,39 @@ namespace OpenInstallerPlatform.Modules {
             }
         }
 
-        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
-        public void removeApplicationFolder ( string name ) {
+        public void RemoveApplicationFolder ( string name ) {
             if ( !m_configurationModel.ApplicationFolders.ContainsKey ( name ) ) return;
 
             m_configurationModel.ApplicationFolders.Remove ( name );
         }
 
-        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
-        public string applicationFolder ( string name ) {
+        public string ApplicationFolder ( string name ) {
             if ( !m_configurationModel.ApplicationFolders.ContainsKey ( name ) ) return "";
 
             return m_configurationModel.ApplicationFolders[name];
         }
 
-        [SuppressMessage ( "Style", "IDE1006:Naming Styles", Justification = "<Pending>" )]
-        public bool isEmptyApplicationFolders () => !m_configurationModel.ApplicationFolders.Any();
+        public void AddVariable ( string name, string value ) {
+            if ( m_configurationModel.Variables.ContainsKey ( name ) ) {
+                m_configurationModel.Variables[name] = value;
+            } else {
+                m_configurationModel.Variables.Add ( name, value );
+            }
+        }
+
+        public void RemoveVariable ( string name ) {
+            if ( !m_configurationModel.Variables.ContainsKey ( name ) ) return;
+
+            m_configurationModel.Variables.Remove ( name );
+        }
+
+        public string Variables ( string name ) {
+            if ( m_configurationModel.Variables.TryGetValue ( name, out var value ) ) return value;
+
+            return "";
+        }
+
+        public bool IsEmptyApplicationFolders () => !m_configurationModel.ApplicationFolders.Any();
 
         public async Task SaveConfiguration () {
             if ( string.IsNullOrEmpty ( m_configurationFile ) ) return;
