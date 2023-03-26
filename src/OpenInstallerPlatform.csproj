@@ -13,10 +13,6 @@
     <EmbeddedResource Include="Content\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Content\Application\Subfolder\LICENSE2" />
-    <None Remove="Content\project.json" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Jint" Version="3.0.0-beta-2047" />
