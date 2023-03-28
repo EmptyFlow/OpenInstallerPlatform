@@ -40,6 +40,20 @@ namespace OpenInstallerPlatform.InstallerModules {
                 if ( !Directory.Exists ( pathToSave ) ) Directory.CreateDirectory ( pathToSave );
 
                 if ( !string.IsNullOrEmpty ( replaceFileName ) ) pathToSave = Path.Combine ( pathToSave, replaceFileName );
+                if ( string.IsNullOrEmpty ( replaceFileName ) ) {
+                    if ( item.Content.Headers.Contains( "Content-Disposition" ) ) {
+                        var value = item.Content.Headers.GetValues ( "Content-Disposition" ).FirstOrDefault ( a => a.Contains ( "filename" ) );
+                        if ( value == null ) {
+                            _logger.Error ( "NetworkModule", $"GetDownloadFile:Can't resolve file name from Content-Disposition header" );
+                            return false;
+                        }
+                        value = value.Replace ( "filename=\"", "" ).Replace ( "\"", "" );
+                        pathToSave = Path.Combine ( pathToSave, value ?? "" );
+                    } else {
+                        _logger.Error ( "NetworkModule", $"GetDownloadFile:Can't resolve file name, please set parameter replaceFileName" );
+                        return false;
+                    }
+                }
 
                 using var resultFile = File.OpenWrite ( pathToSave );
                 await stream.CopyToAsync ( resultFile );
